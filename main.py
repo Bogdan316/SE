@@ -55,6 +55,6 @@ def get_part_spec(url: str, name: str) -> dict:
 
 
 if __name__ == '__main__':
-    # get_part(CPU, 'cpu')
-    # get_part(MB, 'motherboard')
+    get_part(CPU, 'cpu')
+    get_part(MB, 'motherboard')
     get_part(GPU, 'gpu')
