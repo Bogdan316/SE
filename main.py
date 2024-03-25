@@ -33,11 +33,20 @@ def get_part(url: str, name: str):
     specs = []
     for c in parts:
         l: Tag
+        prices = [p.get_text() for p in c.find_all_next('span') if '$' in p.get_text()]
+        if len(prices) == 0:
+            continue
+        price = prices[0]
         for l in c.find_all_next('a'):
             if 'Add to Build' not in l.get_text():
                 link = l.get('href')
                 if link.startswith(url):
-                    specs.append(get_part_spec(link, name))
+                    sp = get_part_spec(link, name)
+                    sp['name'] = l.get_text()
+                    specs.append(sp)
+                    sp['price'] = price
+                    print(sp['name'], sp['price'])
+                    break
 
     with open(os.path.join(name, name + 's.json'), 'w', encoding='utf-8') as out:
         json.dump(specs, out, indent=4)
